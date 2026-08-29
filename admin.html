@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Admin Panel — VEX DIGITAL MARKET</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .admin-wrap{ max-width:980px; margin:0 auto; padding:32px 20px 80px; }
+  .admin-banner{ background:rgba(251,191,36,.1); border:1px solid rgba(251,191,36,.35); color:var(--warning); padding:14px 18px; border-radius:12px; font-size:13.5px; margin-bottom:24px; }
+  .admin-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; margin-bottom:24px; }
+  .admin-card h2{ font-size:17px; margin-bottom:4px; }
+  .admin-card .sub{ font-size:13px; color:var(--text-faint); margin-bottom:18px; }
+  .login-box{ max-width:380px; margin:80px auto; text-align:center; }
+  .login-box input{ width:100%; background:var(--surface); border:1px solid var(--border-strong); border-radius:10px; padding:12px 14px; color:var(--text); font-size:14px; margin:14px 0; font-family:inherit; }
+  .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+  @media (max-width:600px){ .form-row{ grid-template-columns:1fr; } }
+  .form-row.full{ grid-template-columns:1fr; }
+  .form-field label{ display:block; font-size:12px; color:var(--text-faint); margin-bottom:5px; font-weight:600; }
+  .form-field input, .form-field select, .form-field textarea{
+    width:100%; background:var(--bg-soft); border:1px solid var(--border-strong); border-radius:9px; padding:10px 12px;
+    color:var(--text); font-size:13.5px; font-family:inherit; outline:none;
+  }
+  .form-field input:focus, .form-field select:focus{ border-color:var(--primary); }
+
+  .cat-chip-row{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+  .cat-chip{ display:flex; align-items:center; gap:8px; background:var(--surface-2); border:1px solid var(--border-strong); border-radius:99px; padding:7px 8px 7px 14px; font-size:13px; }
+  .cat-chip button{ width:20px; height:20px; border-radius:50%; border:none; background:rgba(251,113,133,.15); color:var(--danger); font-size:11px; display:flex; align-items:center; justify-content:center; }
+
+  .prod-table{ width:100%; border-collapse:collapse; font-size:13.5px; }
+  .prod-table th{ text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-faint); padding:8px 10px; border-bottom:1px solid var(--border-strong); }
+  .prod-table td{ padding:10px; border-bottom:1px solid var(--border); vertical-align:middle; }
+  .prod-table tr:last-child td{ border-bottom:none; }
+  .row-actions{ display:flex; gap:6px; }
+  .row-actions button{ width:30px; height:30px; border-radius:8px; border:1px solid var(--border-strong); background:var(--surface-2); color:var(--text-dim); display:flex; align-items:center; justify-content:center; }
+  .row-actions button:hover{ color:#fff; border-color:var(--primary); }
+  .row-actions .del:hover{ color:var(--danger); border-color:var(--danger); }
+
+  .variant-editor{ display:flex; flex-direction:column; gap:8px; margin-bottom:10px; }
+  .variant-editor-row{ display:grid; grid-template-columns:1fr 130px 34px; gap:8px; }
+  .variant-editor-row input{ background:var(--bg-soft); border:1px solid var(--border-strong); border-radius:8px; padding:8px 10px; color:var(--text); font-size:13px; font-family:inherit; }
+  .variant-editor-row button{ width:34px; height:34px; border-radius:8px; border:1px solid var(--border-strong); background:var(--surface-2); color:var(--danger); }
+
+  .modal-lg .modal{ max-width:560px; }
+  .top-actions{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px; }
+  .tag-count{ font-size:12px; color:var(--text-faint); background:var(--surface-2); padding:4px 10px; border-radius:99px; }
+</style>
+</head>
+<body>
+
+<div id="navbar-root"></div>
+
+<div class="admin-wrap">
+
+  <!-- ===== LOGIN GATE ===== -->
+  <div class="login-box" id="loginBox">
+    <span class="eyebrow">🔒 Area Terbatas</span>
+    <h1 style="font-size:24px;margin:14px 0 6px">Admin Panel</h1>
+    <p style="font-size:13.5px">Masukkan token admin (lihat <code>backend/.env</code>) untuk mengelola kategori & produk.</p>
+    <input type="password" id="tokenInput" placeholder="Tempel ADMIN_TOKEN di sini...">
+    <button class="btn btn-primary btn-block" id="loginBtn">Masuk</button>
+    <p id="loginError" style="color:var(--danger);font-size:13px;margin-top:10px;display:none">Token salah atau backend tidak bisa dihubungi.</p>
+  </div>
+
+  <!-- ===== ADMIN CONTENT (muncul setelah login) ===== -->
+  <div id="adminContent" style="display:none">
+    <div class="page-head" style="padding:0 0 28px;text-align:left;border:none">
+      <span class="eyebrow">Admin Panel</span>
+      <h1 style="font-size:26px;margin:10px 0 6px">Kelola Katalog Toko</h1>
+      <p>Tambah, ubah, atau hapus kategori & produk — perubahan langsung tayang ke semua pengunjung setelah disimpan.</p>
+    </div>
+
+    <div class="admin-banner" id="offlineBanner" style="display:none">
+      ⚠️ <b>Backend belum terhubung.</b> Isi <code>SITE_CONFIG.apiBase</code> di <code>js/config.js</code> dengan URL backend yang sudah di-deploy, lalu refresh halaman ini. Lihat panduan di <code>backend/README.md</code>.
+    </div>
+
+    <!-- ===== KATEGORI ===== -->
+    <div class="admin-card">
+      <h2>📁 Kategori</h2>
+      <p class="sub">Kategori dipakai untuk filter produk di halaman Produk. Kategori "Semua" bawaan tidak bisa dihapus.</p>
+      <div class="cat-chip-row" id="catChipRow"></div>
+      <div class="form-row full">
+        <div class="form-field">
+          <label>Nama Kategori Baru</label>
+          <input type="text" id="newCatLabel" placeholder="Contoh: Gaming, Musik, VPN...">
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="addCatBtn">+ Tambah Kategori</button>
+    </div>
+
+    <!-- ===== PRODUK ===== -->
+    <div class="admin-card">
+      <div class="top-actions">
+        <div>
+          <h2 style="margin-bottom:2px">🛍️ Produk</h2>
+          <span class="sub" style="margin:0">Semua produk & paket harga yang tampil di toko.</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span class="tag-count" id="prodCount">0 produk</span>
+          <button class="btn btn-primary btn-sm" id="addProdBtn">+ Tambah Produk</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="prod-table">
+          <thead>
+            <tr><th>Produk</th><th>Kategori</th><th>Badge</th><th>Paket</th><th>Mulai Dari</th><th></th></tr>
+          </thead>
+          <tbody id="prodTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+      <button class="btn btn-primary" id="saveBtn">💾 Simpan ke Server</button>
+      <button class="btn btn-ghost" id="reloadBtn">↻ Muat Ulang dari Server</button>
+      <button class="btn btn-ghost" id="logoutBtn">Keluar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: TAMBAH/EDIT PRODUK ===== -->
+<div class="modal-overlay modal-lg" id="prodModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h3 id="prodModalTitle" style="font-size:17px">Tambah Produk</h3>
+        <span class="cat-tag">Isi detail produk di bawah</span>
+      </div>
+      <button class="modal-close" id="prodModalClose">✕</button>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label>Nama Produk</label>
+        <input type="text" id="f_name" placeholder="Contoh: Spotify Premium">
+      </div>
+      <div class="form-field">
+        <label>ID (slug unik, huruf kecil tanpa spasi)</label>
+        <input type="text" id="f_id" placeholder="contoh: spotify">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Kategori</label>
+        <select id="f_category"></select>
+      </div>
+      <div class="form-field">
+        <label>Kode Singkat (ikon fallback, 2-4 huruf)</label>
+        <input type="text" id="f_short" maxlength="4" placeholder="SPT">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Warna Ikon</label>
+        <select id="f_tile">
+          <option value="linear-gradient(135deg,#8b5cf6,#4f8cff)">Ungu → Biru</option>
+          <option value="linear-gradient(135deg,#22d3ee,#4f8cff)">Cyan → Biru</option>
+          <option value="linear-gradient(135deg,#fb7185,#8b5cf6)">Pink → Ungu</option>
+          <option value="linear-gradient(135deg,#fbbf24,#fb7185)">Kuning → Pink</option>
+          <option value="linear-gradient(135deg,#34d399,#22d3ee)">Hijau → Cyan</option>
+          <option value="linear-gradient(135deg,#6366f1,#8b5cf6)">Indigo → Ungu</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Badge (opsional)</label>
+        <input type="text" id="f_badge" placeholder="Populer / Baru / Termurah (kosongkan jika tidak ada)">
+      </div>
+    </div>
+
+    <div class="form-field" style="margin-bottom:14px">
+      <label>Paket &amp; Harga</label>
+      <div class="variant-editor" id="variantEditor"></div>
+      <button class="btn btn-ghost btn-sm" id="addVariantBtn">+ Tambah Paket</button>
+    </div>
+
+    <p class="modal-note">Foto produk otomatis memakai <code>assets/products/&lt;ID&gt;.png</code> — kalau file belum ada, tampilan otomatis pakai ikon kode singkat di atas.</p>
+    <button class="btn btn-primary btn-block" id="saveProdBtn">Simpan Produk</button>
+  </div>
+</div>
+
+<div id="footer-root"></div>
+
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/store.js"></script>
+<script src="js/components.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  renderNavbar('admin.html');
+  renderFooter();
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Produk — VEX DIGITAL MARKET</title>
+<meta name="description" content="Semua produk akun premium: Streaming, Design, Editing, AI Tools, dan Productivity.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="navbar-root"></div>
+
+<section class="page-head">
+  <div class="container">
+    <span class="eyebrow">Katalog Lengkap</span>
+    <h1>Semua Produk Premium</h1>
+    <p>Pilih kategori atau cari aplikasi yang kamu butuhkan.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="filter-bar">
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="text" id="searchInput" placeholder="Cari produk, misal: Netflix, CapCut, Canva...">
+      </div>
+      <span style="font-size:13px;color:var(--text-faint)"><b id="resultCount" style="color:var(--text)">0</b> produk ditemukan</span>
+    </div>
+
+    <div class="cat-row" id="catPills"></div>
+
+    <div class="grid" id="katalogGrid"></div>
+  </div>
+</section>
+
+<section class="section section-tight" style="border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="cta-banner reveal">
+      <span class="eyebrow">Tidak menemukan aplikasi yang dicari?</span>
+      <h2>Request Produk Lain</h2>
+      <p>Chat admin kami, siapa tahu aplikasi yang kamu butuhkan bisa kami sediakan juga.</p>
+      <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="btn btn-wa">Chat via WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-root"></div>
+
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/store.js"></script>
+<script src="js/components.js"></script>
+<script src="js/main.js"></script>
+<script src="js/chatbot.js"></script>
+<script>
+  renderNavbar('katalog.html');
+  renderFooter();
+</script>
+</body>
+</html>

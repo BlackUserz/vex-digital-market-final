@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Bantuan — VEX DIGITAL MARKET</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .faq-list{ display:flex; flex-direction:column; gap:12px; max-width:760px; margin:0 auto; }
+  .faq-item{ background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+  .faq-q{ width:100%; text-align:left; padding:18px 20px; background:none; border:none; color:var(--text); font-weight:600; font-size:14.5px; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .faq-q .plus{ transition:transform .2s ease; color:var(--accent); flex:none; }
+  .faq-item.open .faq-q .plus{ transform:rotate(45deg); }
+  .faq-a{ max-height:0; overflow:hidden; transition:max-height .25s ease; padding:0 20px; }
+  .faq-item.open .faq-a{ max-height:220px; padding-bottom:18px; }
+  .faq-a p{ font-size:13.5px; }
+  .contact-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:900px; margin:0 auto; }
+  @media (max-width:760px){ .contact-grid{ grid-template-columns:1fr; } }
+  .contact-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:26px; text-align:center; }
+  .contact-card .ficon{ margin:0 auto 16px; }
+</style>
+</head>
+<body>
+
+<div id="navbar-root"></div>
+
+<section class="page-head">
+  <div class="container">
+    <span class="eyebrow">Pusat Bantuan</span>
+    <h1>Ada yang Bisa Kami Bantu?</h1>
+    <p>Tanya asisten virtual kami kapan saja, atau hubungi tim CS langsung.</p>
+  </div>
+</section>
+
+<section class="section-tight section">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-card reveal">
+        <div class="ficon" style="width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--grad-soft);border:1px solid rgba(139,92,246,.3);color:var(--accent)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Z" stroke="currentColor" stroke-width="1.6"/></svg>
+        </div>
+        <h3 style="font-size:15px;margin-bottom:6px">Chat Vexy (AI 24 Jam)</h3>
+        <p style="font-size:13px;margin-bottom:14px">Tanya seputar produk, harga, atau kendala akun kapan saja.</p>
+        <button class="btn btn-primary btn-sm btn-block" onclick="document.getElementById('chatFab').click()">Buka Chat</button>
+      </div>
+      <div class="contact-card reveal">
+        <div class="ficon" style="width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--grad-soft);border:1px solid rgba(139,92,246,.3);color:var(--accent)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v11H7l-3 3V4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 style="font-size:15px;margin-bottom:6px">WhatsApp Admin</h3>
+        <p style="font-size:13px;margin-bottom:14px">Untuk pembayaran, klaim garansi, atau pertanyaan khusus.</p>
+        <a class="btn btn-wa btn-sm btn-block" href="https://wa.me/6281234567890" target="_blank" rel="noopener">Chat Sekarang</a>
+      </div>
+      <div class="contact-card reveal">
+        <div class="ficon" style="width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--grad-soft);border:1px solid rgba(139,92,246,.3);color:var(--accent)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3V6Zm0 0 9 7 9-7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 style="font-size:15px;margin-bottom:6px">Email Support</h3>
+        <p style="font-size:13px;margin-bottom:14px">support@vexdigitalmarket.com</p>
+        <a class="btn btn-ghost btn-sm btn-block" href="mailto:support@vexdigitalmarket.com">Kirim Email</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">FAQ</span>
+      <h2>Pertanyaan yang Sering Diajukan</h2>
+    </div>
+    <div class="faq-list" id="faqList">
+      <div class="faq-item">
+        <button class="faq-q">Bagaimana cara memesan akun premium? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Pilih produk di halaman Produk, tentukan paket, klik "Pesan Sekarang", lalu lanjutkan pembayaran via WhatsApp admin. Akun akan diproses otomatis setelah pembayaran dikonfirmasi.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Apakah akun bergaransi? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Ya, setiap produk memiliki garansi penuh selama masa aktif paket. Jika terjadi kendala, hubungi admin dengan bukti pembelian untuk penggantian unit baru.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Metode pembayaran apa saja yang diterima? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Transfer bank, QRIS, DANA, GoPay, dan OVO. Detail rekening/nomor akan diberikan admin setelah kamu konfirmasi pesanan.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Berapa lama proses aktivasi akun? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Rata-rata dalam hitungan menit setelah pembayaran dikonfirmasi, karena sistem kami memproses secara otomatis.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Apa bedanya paket Sharing dan Private? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Sharing berarti akun dipakai beberapa pengguna sekaligus (harga lebih hemat), sedangkan Private berarti akun hanya untukmu sendiri sepenuhnya.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-root"></div>
+
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/store.js"></script>
+<script src="js/components.js"></script>
+<script src="js/main.js"></script>
+<script src="js/chatbot.js"></script>
+<script>
+  renderNavbar('bantuan.html');
+  renderFooter();
+  document.querySelectorAll('.faq-q').forEach(btn=>{
+    btn.addEventListener('click', ()=> btn.closest('.faq-item').classList.toggle('open'));
+  });
+</script>
+</body>
+</html>
